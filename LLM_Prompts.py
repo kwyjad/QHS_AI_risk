@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This file stores the prompts for the Gemini API calls.
-Keeping them here makes the main script cleaner and easier to read.
+This file stores the prompt for the Gemini API calls.
+Keeping it here makes the main script cleaner and easier to read.
 """
 
 # Prompt for generating the individual country risk analysis.
@@ -65,21 +65,5 @@ Present the final output as a single, fenced markdown code block that begins wit
     * **CRITICAL RULE: You must not use placeholder text or add any commentary such as "Insert relevant URL here". If you cannot find a specific, valid source, omit that line item, but you must find and list at least five valid sources.**
 7.  **Data Summary Block (Mandatory):** After the Sources section, you must include a hidden HTML comment block containing a machine-readable JSON summary of the scenarios. It must be valid JSON. The structure MUST be: `<!-- SCENARIO_DATA_BLOCK: {{"country": "[Country Name]", "scenarios": [{{"name": "[Scenario Name]", "probability": "[Probability %]", "affected": "[Total People Affected]"}}]}} -->`
 
-"""
-
-# Prompt for generating the final summary table.
-# The placeholder {all_reports} will be replaced by the script.
-TABLE_GENERATION_PROMPT = """
-You are a script that converts structured JSON data into a Markdown table. You have no other functions.
-
-**PRIMARY DIRECTIVE:**
-Your ONLY source of data is the JSON found inside `<!-- SCENARIO_DATA_BLOCK: ... -->` comments in the provided text. You MUST ignore all other text. Find every `SCENARIO_DATA_BLOCK` and parse its JSON content.
-
-**ABSOLUTE RULES:**
-1.  **DO NOT HALLUCINATE:** You are forbidden from inventing, assuming, or modifying any data. If a country like "Nigeria" is not in the JSON data blocks, it MUST NOT appear in your output table. Your output MUST strictly and exclusively represent the data from the JSON blocks.
-2.  **OUTPUT FORMAT:** Your entire output must be ONLY a single, valid, contiguous Markdown table with the columns "Country", "Scenario Name", "Probability", and "People Affected". Do not wrap it in a code block or add any text before or after it.
-3.  **SORTING:** The final table rows must be sorted alphabetically by country.
-
-**EXECUTE NOW.**
 """
 
