@@ -46,7 +46,7 @@ country_model = genai.GenerativeModel(model_name="gemini-2.5-pro",
                                       generation_config=generation_config,
                                       safety_settings=safety_settings)
 
-table_model = genai.GenerativeModel(model_name="gemini-1.5-flash",
+table_model = genai.GenerativeModel(model_name="gemini-2.5-pro",
                                     generation_config=generation_config,
                                     safety_settings=safety_settings)
 
