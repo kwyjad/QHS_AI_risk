@@ -18,7 +18,7 @@ Your task is to develop a comprehensive political, armed conflict, and natural h
 {country}
 
 ### Scope of Analysis
-- Search online for the latest information. Focus on credible sources, and include a list of referenced sources with URLs at the end of the document.
+- **You must search online for the latest information to inform your analysis.** Focus on credible, publicly available sources.
 - **Political Risk**: Focus on elections or legal/administrative changes that could cause civil unrest.
 - **Natural Hazards**: Focus on cyclonic storms, floods, and drought.
   - Mention any relevant “seasons” in the next six months.
@@ -31,10 +31,11 @@ Your task is to develop a comprehensive political, armed conflict, and natural h
 
 ### Scenario Requirements
 For any hazard or risk that you include, define a short scenario that specifies:
-- The probability (0-100%) of the scenario occuring in the next 6 months, with rationale. Think carefully about the probability. Identify a reference class and base rate, and then apply bayesian reasoning.
+- The probability (0-100%) of the scenario occuring in the next 6 months, with rationale. Think carefully about the probability. Identify a reference class and base rate, and then apply bayesian reasoning. Red team your own analysis before producing the final output.
 - The number of people and the number of children affected.
 - The percentage of the population of the affected area that this represents.
-- The sectors in which they could need assistance: Nutrition, WASH, Health, Protection, and Education.
+- The sectors in which they could need assistance: Nutrition, WASH, Health, Protection, and Education, with description of the needs in each sector, with particular focus on children.
+- Any operational challenges that could obstruct UNICEF in delivering assistance.
 
 ### Writing Style
 - Use a professional tone, narrative form (not lists).
@@ -50,13 +51,17 @@ Present the final output as a single, fenced markdown code block that begins wit
 3.  **Risk Categories (H2):** For each risk area (Political, Armed Conflict, Natural Hazard), create a level 2 heading (`##`), e.g., `## Political Risk`. Beneath each heading, write a short narrative paragraph summarizing the general situation for that risk.
 4.  **Scenarios (H3):** Within each risk category, create one or more level 3 headings (`###`) for each distinct scenario. The heading must be formatted as: `### Scenario: [A short, descriptive title]`.
 5.  **Scenario Details:** Beneath each scenario heading, provide:
-    * A single narrative paragraph describing the scenario in detail.
+    * A single narrative paragraph describing the scenario in extensive detail.
     * A bulleted list (`-`) with the following four items, using the exact bolded labels:
-        * `- **Probability of Occurrence:**` [Provide percentage and detailed rationale.]
+        * `- **Probability of Occurrence:**` [Provide percentage and detailed rationale that includes the reference class and based rate that you used, your Bayesian updating process, and your red team thinking]
         * `- **Affected Population:**` [Provide total people and children affected.]
         * `- **Percentage of Population in Affected Area:**` [Provide percentage and context.]
-        * `- **Potential Sectors for Assistance:**` [List relevant sectors. Use a nested bulleted list if there are multiple.]
-6.  **Sources (H2):** Conclude the entire report with a level 2 heading (`##`) titled `Sources Consulted`. Beneath it, provide a bulleted list of the full URLs of sources used.
+        * `- **Potential Sectors for Assistance:**` [List relevant sectors, with decription of the needs in each sector. Use a nested bulleted list if there are multiple.]
+        * `- **Operational Challenges:**` [Describe any challenges that could obstruct UNICEF in delivering assistance.]
+6.  **Sources (H2):** Conclude the entire report with a level 2 heading (`##`) titled `Sources Consulted`. **This section is mandatory.**
+    * Beneath the heading, provide a bulleted list of the full, direct URLs of the primary sources used.
+    * **The format for each source MUST be:** `- **[Website Name] - [Article Title (if available)]:** [Full, direct URL]`.
+    * **Do not list generic google.com search URLs.** Provide the URL of the actual source page.
 """
 
 # Prompt for generating the final summary table.
@@ -77,7 +82,5 @@ You will be provided with a source text containing one or more country risk repo
 3.  **COMPLETENESS:** You must create a separate table row for every single scenario found in the source text. Do not omit, combine, or aggregate scenarios.
 4.  **MISSING DATA:** If a specific data point for a scenario is not present in the text, leave that cell in the table blank. Do not write "N/A", "not available", or attempt to find the information yourself.
 5.  **SORTING:** The final table must be sorted alphabetically by the `Country` column.
-
-## Source Text to Analyze
-{all_reports}
+6.  **FORMATTING:** The generated Markdown table must be a single, contiguous block of text. There must be no blank lines between the header row, the separator line, and the first data row.
 """
