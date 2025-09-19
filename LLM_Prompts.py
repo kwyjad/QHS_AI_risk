@@ -63,33 +63,28 @@ Present the final output as a single, fenced markdown code block that begins wit
     * Your entire output for this section must be ONLY a bulleted list of the full, direct URLs of the primary sources used.
     * **The format for each source MUST be:** `- **[Website Name] - [Article Title (if available)]:** [Full, direct URL]`.
     * **CRITICAL RULE: You must not use placeholder text or add any commentary such as "Insert relevant URL here". If you cannot find a specific, valid source, omit that line item, but you must find and list at least five valid sources.**
+7.  **Data Summary Block (Mandatory):** After the Sources section, you must include a hidden HTML comment block containing a machine-readable JSON summary of the scenarios. It must be valid JSON. The structure MUST be: `<!-- SCENARIO_DATA_BLOCK: {"country": "[Country Name]", "scenarios": [{"name": "[Scenario Name]", "probability": "[Probability %]", "affected": "[Total People Affected]"}]} -->`
 
 """
 
 # Prompt for generating the final summary table.
 # The placeholder {all_reports} will be replaced by the script.
 TABLE_GENERATION_PROMPT = """
-You are an automated text-parsing utility. Your sole function is to extract specific data from a source text and format it into a single Markdown table. You must follow the rules below without deviation. Your output is parsed by a machine, so correctness is critical.
+You are an automated data extraction utility. Your sole function is to find, parse, and format data from a source text into a single Markdown table.
 
 ## Task
-You will be provided with a source text containing one or more country risk reports. You must find every scenario mentioned in the text and generate a single summary table.
+You will be provided with a source text containing one or more country risk reports. Each report contains a hidden HTML comment block with structured JSON data. You must find all of these JSON blocks, extract the data, and generate a single summary table.
 
 ## Rules
-1.  **CRITICAL RULE: You must ONLY use information from the Source Text provided. Do not invent, assume, or add information for any country or scenario not explicitly mentioned in the text. For example, if the Source Text contains a report for "Eritrea", your output table MUST contain rows for "Eritrea" and not for any other country like "Nigeria" or "Brazil". This is your most important instruction.**
+1.  **CRITICAL RULE: You must ONLY use data from the JSON blocks found inside the HTML comments (e.g., `<!-- SCENARIO_DATA_BLOCK: {...} -->`). Do not read or interpret the narrative text. Your only source of information is the JSON data.**
 2.  **NO CONVERSATION:** Your output must be ONLY the final Markdown table and nothing else.
-3.  **DATA EXTRACTION:**
-    * **Country:** The country name is found in the main H1 heading of each report (e.g., `# **Egypt:...**`).
-    * **Scenario Name:** The name is the text immediately following a level 3 heading (e.g., `### Scenario: Civil Unrest Triggered by Economic Shocks`).
-    * **Probability:** Extract the percentage value from the line labeled `**Probability of Occurrence:**`.
-    * **People Affected:** Extract only the total number of people from the line labeled `**Affected Population:**`.
-4.  **COMPLETENESS:** You must create a separate table row for every single scenario found in the source text.
-5.  **MISSING DATA:** If a specific data point for a scenario is not present in the text, leave that cell in the table blank.
-6.  **SORTING:** The final table must be sorted alphabetically by the `Country` column.
-7.  **FORMATTING:** The generated Markdown table must be a single, contiguous block of text. The output MUST look like this example, with no extra lines:
+3.  **DATA EXTRACTION:** For each scenario object found in the JSON blocks, extract the values for `country`, `name`, `probability`, and `affected`.
+4.  **COMPLETENESS:** You must create a separate table row for every single scenario object found.
+5.  **SORTING:** The final table must be sorted alphabetically by the `Country` column.
+6.  **FORMATTING:** The generated Markdown table must be a single, contiguous block of text. The output MUST look like this example, with no extra lines:
     ```
-    | Header 1 | Header 2 |
-    |---|---|
-    | data 1 | data 2 |
-    | data 3 | data 4 |
+    | Country | Scenario Name | Probability | People Affected |
+    |---|---|---|---|
+    | data 1 | data 2 | data 3 | data 4 |
     ```
 """
