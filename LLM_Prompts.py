@@ -70,22 +70,16 @@ Present the final output as a single, fenced markdown code block that begins wit
 # Prompt for generating the final summary table.
 # The placeholder {all_reports} will be replaced by the script.
 TABLE_GENERATION_PROMPT = """
-You are an automated data extraction utility. Your sole function is to find, parse, and format data from a source text into a single Markdown table.
+You are a script that converts structured JSON data into a Markdown table. You have no other functions.
 
-## Task
-You will be provided with a source text containing one or more country risk reports. Each report contains a hidden HTML comment block with structured JSON data. You must find all of these JSON blocks, extract the data, and generate a single summary table.
+**PRIMARY DIRECTIVE:**
+Your ONLY source of data is the JSON found inside `<!-- SCENARIO_DATA_BLOCK: ... -->` comments in the provided text. You MUST ignore all other text. Find every `SCENARIO_DATA_BLOCK` and parse its JSON content.
 
-## Rules
-1.  **CRITICAL RULE: You must ONLY use data from the JSON blocks found inside the HTML comments (e.g., `<!-- SCENARIO_DATA_BLOCK: {{...}} -->`). Do not read or interpret the narrative text. Your only source of information is the JSON data.**
-2.  **NO CONVERSATION:** Your output must be ONLY the final Markdown table and nothing else.
-3.  **DATA EXTRACTION:** For each scenario object found in the JSON blocks, extract the values for `country`, `name`, `probability`, and `affected`.
-4.  **COMPLETENESS:** You must create a separate table row for every single scenario object found.
-5.  **SORTING:** The final table must be sorted alphabetically by the `Country` column.
-6.  **FORMATTING:** The generated Markdown table must be a single, contiguous block of text. The output MUST look like this example, with no extra lines:
-    ```
-    | Country | Scenario Name | Probability | People Affected |
-    |---|---|---|---|
-    | data 1 | data 2 | data 3 | data 4 |
-    ```
+**ABSOLUTE RULES:**
+1.  **DO NOT HALLUCINATE:** You are forbidden from inventing, assuming, or modifying any data. If a country like "Nigeria" is not in the JSON data blocks, it MUST NOT appear in your output table. Your output MUST strictly and exclusively represent the data from the JSON blocks.
+2.  **OUTPUT FORMAT:** Your entire output must be ONLY a single, valid, contiguous Markdown table with the columns "Country", "Scenario Name", "Probability", and "People Affected". Do not wrap it in a code block or add any text before or after it.
+3.  **SORTING:** The final table rows must be sorted alphabetically by country.
+
+**EXECUTE NOW.**
 """
 
