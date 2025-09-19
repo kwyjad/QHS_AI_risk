@@ -63,7 +63,7 @@ Present the final output as a single, fenced markdown code block that begins wit
     * Your entire output for this section must be ONLY a bulleted list of the full, direct URLs of the primary sources used.
     * **The format for each source MUST be:** `- **[Website Name] - [Article Title (if available)]:** [Full, direct URL]`.
     * **CRITICAL RULE: You must not use placeholder text or add any commentary such as "Insert relevant URL here". If you cannot find a specific, valid source, omit that line item, but you must find and list at least five valid sources.**
-7.  **Data Summary Block (Mandatory):** After the Sources section, you must include a hidden HTML comment block containing a machine-readable JSON summary of the scenarios. It must be valid JSON. The structure MUST be: `<!-- SCENARIO_DATA_BLOCK: {"country": "[Country Name]", "scenarios": [{"name": "[Scenario Name]", "probability": "[Probability %]", "affected": "[Total People Affected]"}]} -->`
+7.  **Data Summary Block (Mandatory):** After the Sources section, you must include a hidden HTML comment block containing a machine-readable JSON summary of the scenarios. It must be valid JSON. The structure MUST be: `<!-- SCENARIO_DATA_BLOCK: {{"country": "[Country Name]", "scenarios": [{{"name": "[Scenario Name]", "probability": "[Probability %]", "affected": "[Total People Affected]"}}]}} -->`
 
 """
 
@@ -76,7 +76,7 @@ You are an automated data extraction utility. Your sole function is to find, par
 You will be provided with a source text containing one or more country risk reports. Each report contains a hidden HTML comment block with structured JSON data. You must find all of these JSON blocks, extract the data, and generate a single summary table.
 
 ## Rules
-1.  **CRITICAL RULE: You must ONLY use data from the JSON blocks found inside the HTML comments (e.g., `<!-- SCENARIO_DATA_BLOCK: {...} -->`). Do not read or interpret the narrative text. Your only source of information is the JSON data.**
+1.  **CRITICAL RULE: You must ONLY use data from the JSON blocks found inside the HTML comments (e.g., `<!-- SCENARIO_DATA_BLOCK: {{...}} -->`). Do not read or interpret the narrative text. Your only source of information is the JSON data.**
 2.  **NO CONVERSATION:** Your output must be ONLY the final Markdown table and nothing else.
 3.  **DATA EXTRACTION:** For each scenario object found in the JSON blocks, extract the values for `country`, `name`, `probability`, and `affected`.
 4.  **COMPLETENESS:** You must create a separate table row for every single scenario object found.
@@ -88,3 +88,4 @@ You will be provided with a source text containing one or more country risk repo
     | data 1 | data 2 | data 3 | data 4 |
     ```
 """
+
