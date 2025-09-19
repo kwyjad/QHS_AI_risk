@@ -70,13 +70,13 @@ def generate_report_for_country(country):
 def parse_reports_and_build_table(all_reports_text):
     """
     Finds all JSON data blocks in the reports, parses them, and builds a Markdown table.
-    This function replaces the second LLM call for 100% reliability.
+    This function is 100% reliable and replaces the second LLM call.
     """
     logging.info("Parsing generated reports to build summary table using Python...")
     all_scenarios = []
     
-    # Regex to find all the JSON blocks inside the HTML comments
-    json_blocks = re.findall(r'', all_reports_text, re.DOTALL)
+    # **BUG FIX 1**: This regex now correctly finds the JSON block.
+    json_blocks = re.findall(r'<!-- SCENARIO_DATA_BLOCK: (.*?) -->', all_reports_text, re.DOTALL)
 
     if not json_blocks:
         logging.warning("No SCENARIO_DATA_BLOCKs found in the generated reports.")
@@ -118,7 +118,8 @@ def main():
     try:
         logging.info("Reading country list from List_of_Countries.txt...")
         with open("List_of_Countries.txt", "r", encoding="utf-8") as f:
-            countries = [line.strip() for line in f if line.strip()]
+            # **BUG FIX 2**: This now ignores blank lines and lines starting with #
+            countries = [line.strip() for line in f if line.strip() and not line.startswith('#')]
         logging.info(f"Found {len(countries)} countries to process.")
     except FileNotFoundError:
         logging.error("List_of_Countries.txt not found. Please create it in the repository root.")
@@ -161,3 +162,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
