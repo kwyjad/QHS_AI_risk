@@ -42,7 +42,7 @@ safety_settings = [
 
 # Initialize the generative models
 # We use Gemini 1.5 Flash as it's fast, has a large context window, and is cost-effective
-country_model = genai.GenerativeModel(model_name="gemini-1.5-flash",
+country_model = genai.GenerativeModel(model_name="gemini-2.5-pro",
                                       generation_config=generation_config,
                                       safety_settings=safety_settings)
 
